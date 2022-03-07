@@ -1,1 +1,1 @@
-# config-cat-homework
+# configcat-homework
