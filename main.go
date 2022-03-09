@@ -1,25 +1,102 @@
 package main
 
 import (
-	// "fmt"
+	"errors"
+	"fmt"
 	// "github.com/gofiber/fiber/v2"
-	"configcat-homework/internal/paint"
+	"configcat-homework/app/controllers"
+	"configcat-homework/app/middleware"
+	"configcat-homework/app/routing"
+
+	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
+	fiberLogger "github.com/gofiber/fiber/v2/middleware/logger"
+	fiberRecover "github.com/gofiber/fiber/v2/middleware/recover"
+	"github.com/spf13/viper"
 )
 
 func main() {
 
-	paint.Mix("red", "yellow")
+	// Setup
+	viper.AutomaticEnv()
+	viper.SetConfigName(".env")
+	viper.SetConfigType("env")
+	viper.AddConfigPath("./")
 
-	// Create fiber app
-	// app :=  fiber.New()
+	// Error checking for .env file
+	if err := viper.ReadInConfig(); err != nil {
+		if _, ok := err.(viper.ConfigFileNotFoundError); ok {
+			fmt.Println("Error, could not locate .env file", err)
+		} else {
+			fmt.Println("Error loading .env file", err)
+		}
+	}
 
-	// app.Get("/", func(c *fiber.Ctx) error {
-	// 	return c.SendString("Hello, World!")
-	// })
-
-	// fmt.Println("Starting app")
-
-	// app.Listen(":3000")
+	app := Setup()
 
 	
+	env, ok := viper.Get("ENVIRONMENT").(string)
+
+	if !ok {
+		err := errors.New("ENVIRONMENT not found")
+		fmt.Println(err)
+	}
+
+	fmt.Println("Starting server via", "environment", env)
+
+	startServer(app)
+
+	
+}
+
+
+// Setup Setup a fiber app with all of its routes
+func Setup() *fiber.App {
+	// Configure cors
+	var corsConfig = cors.Config{
+		AllowOrigins:     "*",
+		AllowMethods:     "GET,POST,HEAD,PUT,DELETE,PATCH",
+		AllowHeaders:     "Origin, Content-Type, Accept",
+		AllowCredentials: false,
+	}
+
+	// Setup error handling
+	fiberConfig := fiber.Config{
+		ErrorHandler: middleware.ErrorHandler,
+	}
+
+	loggerConfig := fiberLogger.Config{
+		Format: "${pid} ${locals:requestid} ${status} - ${method} ${path}\n",
+	}
+
+	// Initialize a new app
+	app := fiber.New(fiberConfig)
+	app.Use(fiberLogger.New(loggerConfig))
+	app.Use(fiberRecover.New())
+	app.Use(cors.New(corsConfig))
+
+	controllerManager := controllers.NewControllerManager()
+
+	// Setup routing
+	baseRouter := app.Group("/api/v1")
+	routing.CreatePublicRoutes(baseRouter, controllerManager)
+
+	// Return the configured app
+	return app
+}
+
+
+func startServer(app *fiber.App) {
+	port, ok := viper.Get("PORT").(string)
+
+	if !ok {
+		err := errors.New("PORT not found")
+		fmt.Println(err)
+	}
+
+	listenErr := app.Listen(":" + port)
+
+	if listenErr != nil {
+		fmt.Println("Error during listen", listenErr)
+	}
 }
