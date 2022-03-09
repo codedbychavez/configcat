@@ -23,9 +23,10 @@ func (ctrl PaintController) ReturnLiters(c *fiber.Ctx) error {
 	dimension := new(Dimension)
 
 	if err := c.BodyParser(dimension); err != nil {
-		return err
+		return c.SendString("There was an error")
 	}
 
+	// TODO: Do error checking on the width and height
 	width := dimension.Width
 	height := dimension.Height
 
