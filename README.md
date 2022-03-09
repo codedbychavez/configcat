@@ -1,8 +1,8 @@
 # configcat
 
 1. **Paint Program**
-    1. Height & Width of the area = Total liters of paint needed —> width, height
-    2. Mix the colors together = Toggle this info —> color1, color 2
+    1. Height & Width of the area - Total liters of paint needed —> width, height
+    2. Mix the colors together —> color1, color 2
     3. Features:
         1. Recommend a random color - Toggle this info —> {} just a GET
         2. Recommend online paint shops - Toggle this info —>  {} just a GET
