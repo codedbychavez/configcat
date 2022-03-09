@@ -1,4 +1,4 @@
-# configcat-homework
+# configcat
 
 1. **Paint Program**
     1. Height & Width of the area = Total liters of paint needed —> width, height
