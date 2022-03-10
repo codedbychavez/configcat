@@ -1,8 +1,10 @@
 package routing
 
 import (
-	"github.com/gofiber/fiber/v2"
 	"configcat-homework/app/controllers"
+	// "configcat-homework/internal/services"
+
+	"github.com/gofiber/fiber/v2"
 )
 
 
@@ -19,6 +21,10 @@ func CreatePublicRoutes(router fiber.Router, controllerManager controllers.Contr
 
 	router.Post("/paint/liters", controllerManager.PaintController.ReturnLiters)
 	router.Post("/paint/mix", controllerManager.PaintController.ReturnMix)
+	router.Post("/paint/recommend/stores", controllerManager.PaintController.Companies)
+	router.Post("/paint/recommend/color", controllerManager.PaintController.ReturnMix)
+
+
 
 
 
