@@ -18,6 +18,8 @@ func CreatePublicRoutes(router fiber.Router, controllerManager controllers.Contr
 	})
 
 	router.Post("/paint/liters", controllerManager.PaintController.ReturnLiters)
+	router.Post("/paint/mix", controllerManager.PaintController.ReturnMix)
+
 
 
 }
