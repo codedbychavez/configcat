@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"fmt"
+	"configcat-homework/internal/paint"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -20,18 +20,17 @@ type Dimension struct {
 
 
 func (ctrl PaintController) ReturnLiters(c *fiber.Ctx) error {
+
 	dimension := new(Dimension)
 
 	if err := c.BodyParser(dimension); err != nil {
 		return c.SendString("There was an error")
 	}
 
-	// TODO: Do error checking on the width and height
 	width := dimension.Width
 	height := dimension.Height
+	
+	totalLiters := paint.Liters(width, height)
 
-
-	message := fmt.Sprintf("Your Width is: %.2f and the Height is: %.2f", width, height)
-
-	return c.SendString(message)
+	return c.JSON(totalLiters)
 }
