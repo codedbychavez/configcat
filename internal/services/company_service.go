@@ -1,12 +1,21 @@
 package services
 
 import (
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
+	"os"
 )
 
+type CompanyService struct {}
+
 type Company struct {
-	Name string
-	Website string
+	Name string `json:"name"`
+	Website string `json:"website"`
+}
+
+type Companies struct {
+	Companies []Company `json:"companies"`
 }
 
 func NewCompany(name string, website string) Company {
@@ -16,13 +25,22 @@ func NewCompany(name string, website string) Company {
 	}
 }
 
-type CompanyService interface {
-	FindAll() []Company
+type CompanyMethods interface {
+	FindAll() string
 }
 
 
-func (company Company) FindAll() string {
-	fmt.Println("Calling FindAll() in company_service.go")
-	// os.Open("mock/companies.json")
-	return "c1, c2, c3"
+func (companyService CompanyService) FindAll() Companies {
+	jsonFile, err := os.Open("mock/companies.json")
+	if err != nil {
+		fmt.Println(err)
+
+	}
+
+	byteValue, _ := ioutil.ReadAll(jsonFile)
+	var companies Companies
+	
+	json.Unmarshal(byteValue, &companies)
+
+	return companies
 }

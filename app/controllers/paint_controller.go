@@ -2,8 +2,7 @@ package controllers
 
 import (
 	"configcat-homework/internal/paint"
-	// "configcat-homework/internal/services"
-	// "fmt"
+	"configcat-homework/internal/services"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -42,15 +41,10 @@ func (ctrl PaintController) ReturnMix(c *fiber.Ctx) error {
 
 // Return a list of all companies
 func (ctrl PaintController) Companies(c *fiber.Ctx) error {
-	// serviceManager := services.ServiceManager{}
-	// companyService := serviceManager.CompanyService
+	companyService := services.CompanyService{}
+	companies := companyService.FindAll()
 
-	// // Call the service to find all companies
-	// companies := companyService.FindAll()
-
-	// fmt.Println(companies)
-
-	return c.SendString("test")
+	return c.JSON(companies)
 }
 
 
