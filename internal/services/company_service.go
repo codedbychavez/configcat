@@ -26,7 +26,7 @@ func NewCompany(name string, website string) Company {
 }
 
 type CompanyMethods interface {
-	FindAll() string
+	FindAll() []Company
 }
 
 
@@ -39,7 +39,7 @@ func (companyService CompanyService) FindAll() Companies {
 
 	byteValue, _ := ioutil.ReadAll(jsonFile)
 	var companies Companies
-	
+
 	json.Unmarshal(byteValue, &companies)
 
 	return companies

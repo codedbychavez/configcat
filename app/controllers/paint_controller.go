@@ -11,8 +11,9 @@ type PaintController struct{}
 
 type PaintControllerManager interface {
 	ReturnLiters(c *fiber.Ctx) error
-	ReturnMix(c *fiber.Ctx) error
+	Mix(c *fiber.Ctx) error
 	Companies(c *fiber.Ctx) error
+	RandomColor(c *fiber.Ctx) error
 }
 
 // Return the total liters given two dimensions
@@ -28,7 +29,7 @@ func (ctrl PaintController) ReturnLiters(c *fiber.Ctx) error {
 }
 
 // Return a result of mixing two colors together
-func (ctrl PaintController) ReturnMix(c *fiber.Ctx) error {
+func (ctrl PaintController) Mix(c *fiber.Ctx) error {
 	colors := new(paint.Colors)
 	if err := c.BodyParser(colors); err != nil {
 		return c.SendString("There was an error")
@@ -45,6 +46,14 @@ func (ctrl PaintController) Companies(c *fiber.Ctx) error {
 	companies := companyService.FindAll()
 
 	return c.JSON(companies)
+}
+
+// Return a random color
+func (ctrl PaintController) RandomColor(c *fiber.Ctx) error {
+	paintService := services.PaintService{}
+	randomColor := paintService.RandomColor()
+
+	return c.JSON(randomColor)
 }
 
 
