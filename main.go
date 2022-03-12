@@ -8,36 +8,39 @@ import (
 	"configcat-homework/app/controllers"
 	"configcat-homework/app/middleware"
 	"configcat-homework/app/routing"
+
 	// "configcat-homework/internal/services"
 
+	"configcat-homework/internal/custom_configcat"
+	"configcat-homework/internal/custom_viper"
+	// configcatAbstract "configcat-homework/internal/configcat"
+
+	// configcat "github.com/configcat/go-sdk"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	fiberLogger "github.com/gofiber/fiber/v2/middleware/logger"
 	fiberRecover "github.com/gofiber/fiber/v2/middleware/recover"
+
 	"github.com/spf13/viper"
 )
 
 func main() {
+	appViper := custom_viper.Set{}.Viper().CustomViper
 
-	// Setup
-	viper.AutomaticEnv()
-	viper.SetConfigName(".env")
-	viper.SetConfigType("env")
-	viper.AddConfigPath("./")
-
-	// Error checking for .env file
-	if err := viper.ReadInConfig(); err != nil {
-		if _, ok := err.(viper.ConfigFileNotFoundError); ok {
-			fmt.Println("Error, could not locate .env file", err)
-		} else {
-			fmt.Println("Error loading .env file", err)
-		}
+	// Get configcat API key from .env file
+	configcatAPIKey, ok := appViper.Get("CONFIGCAT_APIKEY").(string)
+	if !ok {
+		err := errors.New("CONFIGCAT_APIKEY not found")
+		fmt.Println(err)
 	}
 
-	app := Setup()
+	appConfigcat := custom_configcat.Client{}.Connect(configcatAPIKey).Connection
 
+	fmt.Println(appConfigcat)
+
+	fiberApp := bootstrapFiber()
 	
-	env, ok := viper.Get("ENVIRONMENT").(string)
+	env, ok := appViper.Get("ENVIRONMENT").(string)
 
 	if !ok {
 		err := errors.New("ENVIRONMENT not found")
@@ -46,14 +49,12 @@ func main() {
 
 	fmt.Println("Starting server via", "environment", env)
 
-	startServer(app)
-
-	
+	startServer(fiberApp, appViper)
 }
 
 
 // Setup Setup a fiber app with all of its routes
-func Setup() *fiber.App {
+func bootstrapFiber() *fiber.App {
 	// Configure cors
 	var corsConfig = cors.Config{
 		AllowOrigins:     "*",
@@ -88,8 +89,8 @@ func Setup() *fiber.App {
 }
 
 
-func startServer(app *fiber.App) {
-	port, ok := viper.Get("PORT").(string)
+func startServer(app *fiber.App, appViper *viper.Viper) {
+	port, ok := appViper.Get("PORT").(string)
 
 	if !ok {
 		err := errors.New("PORT not found")
