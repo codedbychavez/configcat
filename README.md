@@ -74,3 +74,10 @@ Feature Flag: "companies"
 
 ## Interacting with the API (Using Postman)
 1. import the file `ConfigCat.postman_collection.json` into postman
+
+
+## References
+
+1. Files specific to ConfigCat
+- https://github.com/codedbychavez/configcat/blob/main/internal/custom_configcat/custom_configcat.go
+- https://github.com/codedbychavez/configcat/blob/main/app/controllers/paint_controller.go (Lines 44 - 72)
