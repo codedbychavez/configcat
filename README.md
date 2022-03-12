@@ -1,30 +1,57 @@
-# configcat
+# ConfigCat
 
-1. **Paint Program**
-    1. Height & Width of the area - Total liters of paint needed —> width, height
-    2. Mix the colors together —> color1, color 2
-    3. Features:
-        1. Recommend a random color - Toggle this info —> {} just a GET
-        2. Recommend online paint shops - Toggle this info —>  {} just a GET
+## Paint Buddy API - v1.0
 
-## Sending Data
+### Core Features
+1. Returns the total liters of paint needed to cover a square or Rectangular space given the Width and Height.
 
-**Liters of paint:**
+2. Returns the mix result of two colors.
 
-{
+### Beta Features (Feature flags)
+1. Returns a random color - This can be interpreted as a random color we recommend for your next paint project.
+2. Returns a list of paint companies - This can be interpreted as paint companies that chooses to advertise with us. and we can suggest those to users.
 
-“height”: 1.5,
+## API Endpoints
 
-“width”: 3.0
+### Core features
 
-}
+#### Total liters of paint.
+- Endpoint: `http://127.0.0.1:3000/api/v1/paint/liters`
+- Method: `POST`
+- Content-Type: `application/json`
+- Body:
 
-**Mixing**:
+        {
+            "width": 1.5,
+            "height": 3.0
+        }
 
-{
 
-“color1”: “red”,
+#### Total liters of paint.
+- Endpoint: `http://127.0.0.1:3000/api/v1/paint/mix`
+- Method: `POST`
+- Content-Type: `application/json`
+- Body:
 
-“color2”: “yellow”
+        {
+            "color1": "blue",
+            "height": "yellow"
+        }
 
-}
+
+### Beta features (Feature Flags)
+
+#### Return a random color.
+- Endpoint: `http://127.0.0.1:3000/api/v1/paint/random-color`
+- Method: `GET`
+
+- **Configcat**  
+Feature Flag: "randomColor"
+
+#### Return a list of paint companies.
+- Endpoint: `http://127.0.0.1:3000/api/v1/paint/companies`
+- Method: `GET`
+
+- **Configcat**
+Feature Flag: "companies"
+
