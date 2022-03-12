@@ -19,6 +19,6 @@ func CreatePublicRoutes(router fiber.Router, controllerManager controllers.Contr
 
 	router.Post("/paint/liters", controllerManager.PaintController.ReturnLiters)
 	router.Post("/paint/mix", controllerManager.PaintController.Mix)
-	router.Post("/paint/companies", controllerManager.PaintController.Companies)
-	router.Post("/paint/random-color", controllerManager.PaintController.RandomColor)
+	router.Get("/paint/companies", controllerManager.PaintController.Companies)
+	router.Get("/paint/random-color", controllerManager.PaintController.RandomColor)
 }

@@ -1,0 +1,20 @@
+# Do not use this in production
+version: "3.8"
+
+services:
+  app:
+    container_name: configcat
+    image: configcat
+
+    build:
+      context: .
+      target: development
+
+    volumes:
+      - .:/app
+
+    ports:
+      - ${PORT}:${PORT}
+
+    env_file:
+      - .env

@@ -55,9 +55,17 @@ Feature Flag: "randomColor"
 - **Configcat**  
 Feature Flag: "companies"
 
-## Setup
+## Setup (Without Docker)
 1. Clone this repo
 2. Open this repo in your terminal
-3. Run `make env` to create a `.env` file
+3. Run `make env` to create a `.env` file or `cp .env.example .env`
 4. Add your ConfigCat API key to the `.env` file
-5. Run `make run` to start the app
+5. Install go packages, run `make install` or `go mod download`
+5. Run `make run` to start the app or `go run .`
+
+## Setup (With Docker)
+1. Clone this repo
+2. Open this repo in your terminal
+3. Run `make env` to create a `.env` file or `cp .env.example .env`
+4. Add your ConfigCat API key to the `.env` file
+5. Run `make docker` or `docker-compose up --build`
