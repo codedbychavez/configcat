@@ -3,7 +3,7 @@
 ## Paint Buddy API - v1.0
 
 ### Core Features
-1. Returns the total liters of paint needed to cover a square or Rectangular space given the Width and Height.
+1. Returns the total liters of paint needed to cover a square or rectangular space given the **width** and **height**.
 
 2. Returns the mix result of two colors.
 
