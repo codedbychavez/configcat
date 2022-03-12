@@ -9,9 +9,7 @@ import (
 	"configcat-homework/app/middleware"
 	"configcat-homework/app/routing"
 
-	// "configcat-homework/internal/services"
 
-	"configcat-homework/internal/custom_configcat"
 	"configcat-homework/internal/custom_viper"
 	// configcatAbstract "configcat-homework/internal/configcat"
 

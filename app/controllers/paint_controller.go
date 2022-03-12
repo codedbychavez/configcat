@@ -1,9 +1,9 @@
 package controllers
 
 import (
+	"configcat-homework/internal/custom_configcat"
 	"configcat-homework/internal/paint"
 	"configcat-homework/internal/services"
-
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -44,21 +44,31 @@ func (ctrl PaintController) Mix(c *fiber.Ctx) error {
 // Return a list of all companies
 func (ctrl PaintController) Companies(c *fiber.Ctx) error {
 	companyService := services.CompanyService{}
+	appConfigcat := custom_configcat.Client{}.Connect().Connection
 
-	// TODO: Add config flag logic here
-	companies := companyService.FindAll()
+	isCompaniesEnabled := appConfigcat.GetValue("companies", false)
 
-	return c.JSON(companies)
+	if isCompaniesEnabled == true {
+		companies := companyService.FindAll()
+		return c.JSON(companies)
+	}
+	
+	return c.SendString("This feature is not available.")
 }
 
 // Return a random color
 func (ctrl PaintController) RandomColor(c *fiber.Ctx) error {
 	paintService := services.PaintService{}
+	appConfigcat := custom_configcat.Client{}.Connect().Connection
 
-	// TODO: Add config flag logic here
-	randomColor := paintService.RandomColor()
+	isRandomColorEnabled := appConfigcat.GetValue("randomColor", false)
 
-	return c.JSON(randomColor)
+	if isRandomColorEnabled == true {
+		randomColor := paintService.RandomColor()
+		return c.JSON(randomColor)
+	}
+
+	return c.SendString("This feature is not available.")
 }
 
 
