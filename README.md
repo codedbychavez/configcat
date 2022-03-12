@@ -69,3 +69,6 @@ Feature Flag: "companies"
 3. Run `make env` to create a `.env` file or `cp .env.example .env`
 4. Add your ConfigCat API key to the `.env` file
 5. Run `make docker` or `docker-compose up --build`
+
+## Interacting with the API (Using Postman)
+1. import the file `ConfigCat.postman_collection.json` into postman
