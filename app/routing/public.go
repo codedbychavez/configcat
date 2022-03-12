@@ -2,7 +2,6 @@ package routing
 
 import (
 	"configcat-homework/app/controllers"
-	// "configcat-homework/internal/services"
 
 	"github.com/gofiber/fiber/v2"
 )

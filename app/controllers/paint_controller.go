@@ -4,6 +4,7 @@ import (
 	"configcat-homework/internal/paint"
 	"configcat-homework/internal/services"
 
+
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -43,6 +44,8 @@ func (ctrl PaintController) Mix(c *fiber.Ctx) error {
 // Return a list of all companies
 func (ctrl PaintController) Companies(c *fiber.Ctx) error {
 	companyService := services.CompanyService{}
+
+	// TODO: Add config flag logic here
 	companies := companyService.FindAll()
 
 	return c.JSON(companies)
@@ -51,6 +54,8 @@ func (ctrl PaintController) Companies(c *fiber.Ctx) error {
 // Return a random color
 func (ctrl PaintController) RandomColor(c *fiber.Ctx) error {
 	paintService := services.PaintService{}
+
+	// TODO: Add config flag logic here
 	randomColor := paintService.RandomColor()
 
 	return c.JSON(randomColor)

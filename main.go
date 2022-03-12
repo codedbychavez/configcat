@@ -27,18 +27,6 @@ import (
 func main() {
 	appViper := custom_viper.Set{}.Viper().CustomViper
 
-	// Get configcat API key from .env file
-	configcatAPIKey, ok := appViper.Get("CONFIGCAT_APIKEY").(string)
-	if !ok {
-		err := errors.New("CONFIGCAT_APIKEY not found")
-		fmt.Println(err)
-	}
-
-	appConfigcat := custom_configcat.Client{}.Connect(configcatAPIKey).Connection
-
-	fmt.Println(appConfigcat)
-
-	fiberApp := bootstrapFiber()
 	
 	env, ok := appViper.Get("ENVIRONMENT").(string)
 
@@ -48,6 +36,8 @@ func main() {
 	}
 
 	fmt.Println("Starting server via", "environment", env)
+
+	fiberApp := bootstrapFiber()
 
 	startServer(fiberApp, appViper)
 }
